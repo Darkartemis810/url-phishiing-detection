@@ -1,0 +1,5 @@
+Model,Accuracy,Precision,Recall,F1-Score,ROC-AUC,5-Fold CV,Train Time
+Logistic Regression,100.00%,100.00%,100.00%,1.0000,1.0000,100.00%,4.1 ms
+Decision Tree,100.00%,100.00%,100.00%,1.0000,1.0000,100.00%,3.7 ms
+Gradient Boosting,100.00%,100.00%,100.00%,1.0000,1.0000,100.00%,135.8 ms
+Random Forest (Ours),100.00%,100.00%,100.00%,1.0000,1.0000,100.00%,216.3 ms

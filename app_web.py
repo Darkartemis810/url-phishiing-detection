@@ -774,7 +774,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </html>
 """
 
+class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    daemon_threads = True
+    allow_reuse_address = True
+
 class PhishingDashboardHandler(http.server.SimpleHTTPRequestHandler):
+    protocol_version = "HTTP/1.0"
+    
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
         
@@ -784,40 +790,60 @@ class PhishingDashboardHandler(http.server.SimpleHTTPRequestHandler):
             url = query.get('url', [''])[0]
             
             if not url:
+                err_bytes = json.dumps({'error': 'No URL provided'}).encode('utf-8')
                 self.send_response(400)
                 self.send_header('Content-Type', 'application/json')
+                self.send_header('Content-Length', str(len(err_bytes)))
+                self.send_header('Connection', 'close')
+                self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
-                self.wfile.write(json.dumps({'error': 'No URL provided'}).encode('utf-8'))
+                self.wfile.write(err_bytes)
                 return
             
-            # Predict
-            pred, proba = predict_url(url)
-            features = extract_features(url)
-            confidence = proba[pred] * 100
-            
-            response_data = {
-                'url': url,
-                'prediction': int(pred),
-                'label': 'PHISHING' if pred == 1 else 'LEGITIMATE',
-                'confidence': round(float(confidence), 2),
-                'prob_legitimate': round(float(proba[0]), 4),
-                'prob_phishing': round(float(proba[1]), 4),
-                'features': features
-            }
-            
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
-            self.wfile.write(json.dumps(response_data).encode('utf-8'))
+            try:
+                # Predict
+                pred, proba = predict_url(url)
+                features = extract_features(url)
+                confidence = proba[pred] * 100
+                
+                response_data = {
+                    'url': url,
+                    'prediction': int(pred),
+                    'label': 'PHISHING' if pred == 1 else 'LEGITIMATE',
+                    'confidence': round(float(confidence), 2),
+                    'prob_legitimate': round(float(proba[0]), 4),
+                    'prob_phishing': round(float(proba[1]), 4),
+                    'features': features
+                }
+                resp_bytes = json.dumps(response_data).encode('utf-8')
+                
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Content-Length', str(len(resp_bytes)))
+                self.send_header('Connection', 'close')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(resp_bytes)
+            except Exception as e:
+                err_bytes = json.dumps({'error': str(e)}).encode('utf-8')
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Content-Length', str(len(err_bytes)))
+                self.send_header('Connection', 'close')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(err_bytes)
             return
         
         # Root / index: Serve HTML Dashboard
         if parsed.path in ('/', '/index.html', '/dashboard'):
+            html_bytes = HTML_TEMPLATE.encode('utf-8')
             self.send_response(200)
             self.send_header('Content-Type', 'text/html; charset=utf-8')
+            self.send_header('Content-Length', str(len(html_bytes)))
+            self.send_header('Connection', 'close')
             self.end_headers()
-            self.wfile.write(HTML_TEMPLATE.encode('utf-8'))
+            self.wfile.write(html_bytes)
             return
             
         super().do_GET()
@@ -825,9 +851,12 @@ class PhishingDashboardHandler(http.server.SimpleHTTPRequestHandler):
 
 def run_server():
     global PORT
+    print("⚡ Pre-warming model and cache in memory for sub-millisecond inference...")
+    load_model()
+    print("✅ Model warm and ready in RAM!")
     while True:
         try:
-            with socketserver.TCPServer(("", PORT), PhishingDashboardHandler) as httpd:
+            with ThreadedTCPServer(("", PORT), PhishingDashboardHandler) as httpd:
                 print("\n" + "="*75)
                 print(f"🛡️  URL PHISHING INTELLIGENCE DASHBOARD RUNNING")
                 print("="*75)

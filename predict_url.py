@@ -194,13 +194,13 @@ def predict_url(url, model_path='url_phishing_model.pkl'):
         
         return prediction, probability
         
-    except FileNotFoundError:
+    except FileNotFoundError as e:
         print(f"Error: Model file '{model_path}' not found.")
         print("Please run the Jupyter notebook first to train and save the model.")
-        sys.exit(1)
+        raise e
     except Exception as e:
         print(f"Error: {e}")
-        sys.exit(1)
+        raise e
 
 
 def main():

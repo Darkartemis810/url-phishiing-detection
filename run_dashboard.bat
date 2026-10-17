@@ -3,6 +3,8 @@ echo ===================================================
 echo Starting URL Phishing Intelligence Web Dashboard...
 echo ===================================================
 echo.
-call .venv\Scripts\activate.bat
+if exist .venv\Scripts\activate.bat (
+    call .venv\Scripts\activate.bat
+)
 python app_web.py
 pause

@@ -95,7 +95,7 @@ def main():
     print("█" + " "*78 + "█")
     print("█" + "Model Performance:".center(78) + "█")
     print("█" + "Accuracy: 100% | Precision: 100% | Recall: 100%".center(78) + "█")
-    print("█" + "Features: 23 engineered URL characteristics".center(78) + "█")
+    print("█" + "Features: 27 engineered URL characteristics".center(78) + "█")
     print("█" + "Algorithm: Random Forest (100 decision trees)".center(78) + "█")
     print("█" + " "*78 + "█")
     print("█"*80)

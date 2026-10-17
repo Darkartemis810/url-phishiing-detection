@@ -77,7 +77,7 @@ jupyter notebook random_forest_url_phishing.ipynb
 
 - **Why Random Forest?** Captures non-linear feature interactions, resistant to overfitting via ensemble bagging, provides feature rankings, fast inference (<5 ms), and needs no feature scaling.
 - **Why 100% Accuracy?** The 1,000-sample balanced dataset clearly reflects defined cybersecurity heuristics. Hyperparameters (`max_depth=20`, `min_samples_leaf=2`) and 5-fold cross-validation guarantee no overfitting. Real-world noisy web data yields 95–98%.
-- **What if phishing site uses HTTPS?** The model evaluates 22 other features (suspicious TLDs like `.tk`, keywords, hyphens, subdomains, digit ratios), correctly flagging it regardless of HTTPS.
+- **What if phishing site uses HTTPS?** The model evaluates 26 other features (brand typosquatting, suspicious TLDs like `.tk`, keywords, hyphens, subdomains, digit ratios, Shannon entropy), correctly flagging it regardless of HTTPS.
 
 ---
 
@@ -86,18 +86,24 @@ jupyter notebook random_forest_url_phishing.ipynb
 ```
 d:\Url phishing/
 ├── COMPREHENSIVE_PROJECT_GUIDE.md    # 📖 Complete All-in-One Documentation & Guide
+├── ML_APPROACH_AND_LIMITATIONS.md    # 🧠 Junior Guide: ML Approach, Feature Selection & Real-World Limitations
 ├── README.md                         # 📄 Repository Readme (This File)
-├── random_forest_url_phishing.ipynb   # 📓 Full ML Training & Analysis Notebook
-├── url_phishing_model.pkl            # 🧠 Serialized Trained Model (172 KB)
+├── random_forest_url_phishing.ipynb   # 📓 Full ML Training, Benchmarking & Analysis Notebook
+├── app_web.py                        # 🌐 Dark-Mode Web Dashboard & Real-Time API Server
+├── train_advanced_model.py           # 🏋️ Standalone Model Training & Benchmarking Engine
+├── url_phishing_model.pkl            # 🧠 Serialized Trained Model (137 KB)
 ├── phishing_urls_dataset.csv         # 📊 1,000 URLs Dataset with Labels
-├── phishing_features_dataset.csv     # 📈 23 Extracted Features Dataset
-├── predict_url.py                    # 💻 High-speed CLI URL Predictor
-├── test_quick.py                     # ⚡ Fast Verification Script
-├── test_batch.py                     # 🔍 Batch Evaluation Script
-├── demo_live.py                      # 🎤 Teacher Presentation Demo
-├── quick.html                        # 🌐 Web Demo UI
-├── run_demo.bat                      # 🚀 Windows 1-Click Batch Runner
+├── phishing_features_dataset.csv     # 📈 27 Extracted Features Numerical Dataset
+├── model_benchmark_results.csv       # 🏆 Multi-Model Benchmark Comparison (RF, GB, DT, LR)
+├── predict_url.py                    # 💻 High-speed CLI URL Predictor (< 5ms)
+├── test_quick.py                     # ⚡ Fast Verification Script (100% Pass)
+├── test_batch.py                     # 🔍 Batch Evaluation Script (12 Real-World URLs)
+├── demo_live.py                      # 🎤 Interactive Terminal Demo
+├── run_dashboard.bat                 # 🚀 Windows 1-Click Web Dashboard Launcher
+├── run_demo.bat                      # 🚀 Windows 1-Click Terminal Demo Launcher
 └── requirements.txt                  # 📦 Dependencies
 ```
 
-For complete technical deep-dives, code line-by-line breakdowns, and all 23 feature descriptions, see [COMPREHENSIVE_PROJECT_GUIDE.md](file:///d:/Url%20phishing/COMPREHENSIVE_PROJECT_GUIDE.md).
+### 📚 Recommended Reading for Junior Engineers
+- **Core Concepts & Real-World Limitations**: Read [ML_APPROACH_AND_LIMITATIONS.md](file:///d:/Url%20phishing/ML_APPROACH_AND_LIMITATIONS.md) to understand why unknown benign domains aren't flagged as phishing, feature engineering trade-offs, and multi-layer defense.
+- **Complete Technical Manual**: See [COMPREHENSIVE_PROJECT_GUIDE.md](file:///d:/Url%20phishing/COMPREHENSIVE_PROJECT_GUIDE.md) for code breakdowns and interview preparation.

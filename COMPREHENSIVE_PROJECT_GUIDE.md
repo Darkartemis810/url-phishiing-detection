@@ -6,21 +6,24 @@
 
 ## 📋 Table of Contents
 1. [Project at a Glance](#1-project-at-a-glance)
-2. [Project Setup & How to Run](#2-project-setup--how-to-run)
-3. [Live Teacher / Professor Demo Guide](#3-live-teacher--professor-demo-guide)
-4. [Machine Learning Architecture & Concepts](#4-machine-learning-architecture--concepts)
-5. [Dataset & 23 Feature Engineering Breakdown](#5-dataset--23-feature-engineering-breakdown)
-6. [Model Evaluation & Performance Metrics](#6-model-evaluation--performance-metrics)
-7. [Every Library & Code Function Explained](#7-every-library--code-function-explained)
-8. [Professor Viva & Defense Q&A](#8-professor-viva--defense-qa)
-9. [Project File Structure](#9-project-file-structure)
+2. [Junior Guide: ML Approach & Real-World Limitations](file:///d:/Url%20phishing/ML_APPROACH_AND_LIMITATIONS.md)
+3. [Project Setup & How to Run](#2-project-setup--how-to-run)
+4. [Live Teacher / Professor Demo Guide](#3-live-teacher--professor-demo-guide)
+5. [Machine Learning Architecture & Concepts](#4-machine-learning-architecture--concepts)
+6. [Dataset & 27 Feature Engineering Breakdown](#5-dataset--23-feature-engineering-breakdown)
+7. [Model Evaluation & Performance Metrics](#6-model-evaluation--performance-metrics)
+8. [Every Library & Code Function Explained](#7-every-library--code-function-explained)
+9. [Professor Viva & Defense Q&A](#8-professor-viva--defense-qa)
+10. [Project File Structure](#9-project-file-structure)
 
 ---
 
 ## 1. Project at a Glance
 
 ### Overview
-This project is an end-to-end Machine Learning system that analyzes website URLs and predicts in real time whether a URL is **Legitimate (Safe)** or a **Phishing Attack (Malicious)**. It uses cybersecurity domain heuristics to extract **23 lexical and structural features** and classifies them using an optimized **Random Forest Classifier**.
+This project is an end-to-end Machine Learning system that analyzes website URLs and predicts in real time whether a URL is **Legitimate (Safe)** or a **Phishing Attack (Malicious)**. It uses cybersecurity domain heuristics to extract **27 lexical, statistical, and threat-intelligence features** (including Shannon entropy, brand typosquatting via Levenshtein distance, URL shortener detection, and Punycode) and classifies them using an optimized **Random Forest Classifier**.
+
+> 💡 **For Juniors & Students:** Make sure to read [ML_APPROACH_AND_LIMITATIONS.md](file:///d:/Url%20phishing/ML_APPROACH_AND_LIMITATIONS.md) to understand why unfamiliar benign domains are classified as Legitimate, how feature engineering boundaries work, and real-world multi-layer architectures.
 
 ### 📊 Performance & System Metrics
 
@@ -28,7 +31,7 @@ This project is an end-to-end Machine Learning system that analyzes website URLs
 | :--- | :--- | :--- |
 | **Problem Type** | Binary Classification | `0` = Legitimate, `1` = Phishing |
 | **Dataset Size** | 1,000 URLs | 500 Legitimate (50%), 500 Phishing (50%) |
-| **Features** | 23 Features | Lexical, Domain, Statistical, & Pattern features |
+| **Features** | 27 Features | Lexical, Domain, Statistical, Threat-Intelligence |
 | **Primary Model** | Random Forest | 100 Trees (`n_estimators=100`, `max_depth=20`) |
 | **Accuracy** | 100% | On stratified test set (200 URLs) |
 | **Precision** | 100% | Zero False Positives |
